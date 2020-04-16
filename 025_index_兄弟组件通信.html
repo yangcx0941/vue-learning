@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <child-1></child-1>
+    <hr>
+    <child-2></child-2>
+</div>
+
+<script type="text/javascript">
+
+    /*公共的Vue组件*/
+    let bridge = new Vue({});
+
+    /*
+    * 通过公共组件实现组件之间的通信
+    * */
+
+    Vue.component('child-1', {
+        template: `
+            <div>
+                <h4>111 Msg from brother: {{msg}}</h4>
+                <input type="button" value="1->2" v-on:click="sendData">
+            </div>
+        `,
+        data: function () {
+            return {
+                msg: ''
+            }
+        },
+        methods: {
+            sendData() {
+                /*通过公共组件发送事件*/
+                bridge.$emit('one2TwoEvent', 'Hello 2,I am 1')
+            }
+        },
+        mounted: function () {
+            // fixme 闭包
+            let that = this;
+            bridge.$on('two2OneEvent', function (msg) {
+                console.log("Msg from 2：" + msg);
+                that.msg = msg;
+            })
+        }
+    });
+
+    Vue.component('child-2', {
+        template: `
+            <div>
+                <h4>222 Msg from brother: {{msg}}</h4>
+                <input type="button" value="2->1" v-on:click="sendData">
+            </div>
+        `,
+        data: function () {
+            return {
+                msg: ''
+            }
+        },
+        methods: {
+            sendData() {
+                /*通过公共组件发送事件*/
+                bridge.$emit('two2OneEvent', 'Hello 1,I am 2')
+            }
+        },
+        /*
+        * 1、mounted 被调用时，只是定义了回调函数，并不执行
+        * 2、当 child-1 触发事件时，此时 this 并不指向 child-2
+        * 3、使用闭包解决
+        * */
+        mounted: function () {
+            // fixme 闭包
+            let that = this;
+            /*注册自定义事件用于响应兄弟组件的事件*/
+            bridge.$on('one2TwoEvent', function (msg) {
+                console.log("Msg from 1：" + msg);
+                that.msg = msg;
+            })
+        }
+    });
+
+    let m = {
+        isShow: true
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>
+<!--
+    el          挂载点
+    methods     方法
+    data        数据
+    filters     过滤器
+    computed    计算属性
+    directives  自定义指令
+    watch       监听
+    生命周期
+    beforeCreate  created
+    beforeMount   mounted
+    beforeUpdate  updated
+    beforeDestroy destroyed
+-->

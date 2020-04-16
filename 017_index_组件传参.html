@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <parent></parent>
+</div>
+
+<script type="text/javascript">
+
+    Vue.component('child', {
+        template: `
+            <div>
+                <p v-bind:id="p1" v-bind:prtP="prtP">{{str}}-{{prtP}}</p>
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: ["p1", "str", 'prtP'],
+        methods: {},
+        mounted: function () {
+            console.log(this.prtP);
+            /*cxy 避免直接更改props（父组件重新渲染时，props值都会被覆盖），可以考虑使用 data 或 computed 进行基于此值的计算使用*/
+            // this.prtP = 'child change to p00780';
+        }
+    });
+
+    /*
+    * 1、普通的静态值可以直接写，eg. p1="p123"
+    * 2、通过 data 指定的动态值需要绑定传参，eg. v-bind:prtP1="prtP1"
+    * 3、子组件中通过绑定接收
+    * */
+    Vue.component('parent', {
+        template: `
+            <div>
+                <child p1="p123" str="abc" v-bind:prtP="prtP1"></child>
+            </div>
+        `,
+        data: function () {
+            return {
+                prtP1: 'p456'
+            }
+        }
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

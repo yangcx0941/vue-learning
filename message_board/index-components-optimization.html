@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script src="../js/vue.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form-user></form-user>
+    </div>
+
+    <hr/>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">用户名</th>
+            <th class="text-center">备注</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-show="userList.length === 0">
+            <td colspan="4" class="text-center text-danger">
+                暂无数据。。。。
+            </td>
+        </tr>
+
+        <tr class="text-center" v-for="(item,index) in userList">
+            <td>{{index+1}}</td>
+            <td>{{item.username}}</td>
+            <td>{{item.comment}}</td>
+            <td>
+                <input type="button" value="删除" class="btn btn-warning btn-sm" v-on:click="deleteUser(index)">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    Vue.component('form-user', {
+        <!--自定义的组件必须使用双标签-->
+        template: `
+            <div class="form-horizontal">
+                <group-username></group-username>
+                <group-comment></group-comment>
+                <div class="form-group">
+                    <group-btn></group-btn>
+                </div>
+            </div>
+        `
+    });
+
+    Vue.component('btn-add', {
+        template: `<input type="button" value="添加" class="btn btn-primary" v-on:click="addUser">`
+    });
+
+    Vue.component('btn-delete', {
+        template: `<input type="reset" value="取消" class="btn btn-danger" v-on:click="cancelAdd">`
+    });
+
+    Vue.component('group-btn', {
+        template: `
+            <div class="text-center">
+                <btn-add></btn-add>
+                <btn-delete></btn-delete>
+            </div>
+        `
+    });
+
+    /*通过组件传参合并组件*/
+    Vue.component('label-username-comment',{
+        template:`<label v-bind:for="forName" class="control-label">{{displayName}}</label>`,
+        props:['forName','displayName']
+    });
+
+    /*通过组件传参合并组件 fixme v-bind:v-model 待定*/
+    Vue.component('input-username-comment',{
+        template:`<input v-bind:id="inputIdModel" type="text" class="form-control" v-bind:v-model="inputIdModel">`,
+        props:['inputIdModel']
+    });
+
+    Vue.component('group-username', {
+        template: `
+            <div class="form-group">
+                <label-username-comment display-name="用户名：" for-name="username"></label-username-comment>
+                <input-username-comment input-id-model="username"></input-username-comment>
+            </div>
+        `
+    });
+
+    Vue.component('group-comment', {
+        template: `
+            <div class="form-group">
+                <label-username-comment display-name="备注：" for-name="comment"></label-username-comment>
+                <input-username-comment input-id-model="comment"></input-username-comment>
+            </div>
+        `
+    });
+
+    Vue.component();
+
+
+    let m = {
+        username: '',
+        comment: '',
+        userList: [
+            {
+                username: "yangcx",
+                comment: 'abcdefg'
+            }, {
+                username: "yangcc",
+                comment: 'zxcvbnm,'
+            }
+        ]
+    };
+
+    let vm = new Vue({
+        el: '.container',
+        data: m,
+        methods: {
+            addUser() {
+                // cxy 只需要维护数据即可，其他的交由Vue维护
+                if (this.username !== '') {
+                    this.userList.push({
+                        username: this.username,
+                        comment: this.comment
+                    });
+
+                    this.username = '';
+                    this.comment = '';
+                }
+            },
+
+            cancelAdd() {
+                this.username = '';
+                this.comment = '';
+            },
+
+            deleteUser(index) {
+                let t = confirm("确认删除？");
+                if (t) {
+                    this.userList.splice(index, 1);
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--标准的Vue实现-->
+    <h1 v-show="true">标准的Vue实现</h1>
+    <hr/>
+    <!--自定义实现 v-change="expression"-->
+    {{count}}
+    <h1 v-change="count">自定义实现 v-change="expression" >0 显示 <=0 不显示</h1>
+    <input type="button" value="++" v-on:click="countAdd">
+    <input type="button" value="--" v-on:click="countDelete">
+</div>
+
+<script type="text/javascript">
+    let m = {
+        count: 0
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            countAdd() {
+                this.count++;
+            },
+
+            countDelete() {
+                this.count--;
+            },
+        },
+        // 自定义事件
+        directives: {
+            // 必须与自定义的v-*相同
+            change: {
+                // 只在第一次绑定时调用，后面就不调了
+                bind: function (el, bindings) {
+                    console.log(el, bindings);
+                    if (bindings.value > 0) {
+                        el.setAttribute("style", "display:block");
+                    } else {
+                        el.setAttribute("style", "display:none");
+                    }
+                },
+                // 每次更新都会调用
+                update: function (el, bindings) {
+                    console.log(el, bindings);
+                    if (bindings.value > 0) {
+                        el.setAttribute("style", "display:block");
+                    } else {
+                        el.setAttribute("style", "display:none");
+                    }
+                },
+                unbind: function (el, bindings) {
+                    console.log(el, bindings);
+                },
+            }
+        }
+    });
+</script>
+</body>
+</html>

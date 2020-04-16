@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{myVal1}}
+    <br/>
+    <!--.lazy 只有Enter或onBlur才会触发-->
+    <input type="text" v-model.lazy="myVal1"/>
+
+    <hr/>
+    {{myVal2}}
+    <br/>
+    <!--只有是number的时候才会更新关联的绑定值；.lazy .number 可以连写同时生效-->
+    <input type="text" v-model.number="myVal2"/>
+
+    <hr/>
+    {{myVal3}}
+    <br/>
+    <!--.trim 去空格-->
+    <input type="text" v-model.trim="myVal3"/>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        myVal1: 0,
+        myVal2: 0,
+        myVal3: 0
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

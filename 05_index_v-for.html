@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <!--v-for 所在的标签就复制自己-->
+        <!--数组 不带下标-->
+        <li v-for="val in array">{{val}}</li>
+        <br/>
+        <!--数组 带下标-->
+        <li v-for="(val,index) in array">index: {{index}}，value: {{val}}</li>
+        <br/>
+
+        <!--JSON对象-->
+        <!--不带key-->
+        <li v-for="val in json">{{val}}</li>
+        <br/>
+        <!--带key（还可以带index）-->
+        <li v-for="(value,key,index) in json">{{key}} : {{value}} , index:{{index}}</li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        array: ['Peking', 'Jinan', 'Shanghai', 'Hangzhou', 'Sulawesi'],
+        json: {
+            firstCity: 'Peking',
+            secondCity: 'Jinan',
+            thirdCity: 'Shanghai',
+            fourthCity: 'Hangzhou',
+            fifthCity: 'Sulawesi',
+        }
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

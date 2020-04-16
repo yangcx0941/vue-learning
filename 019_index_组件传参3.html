@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-parent></my-parent>
+</div>
+
+<script type="text/javascript">
+
+    Vue.component('my-parent', {
+        template: `
+            <div>
+                <h4>msg from child: {{msg}}</h4>
+                <hr/>
+                <my-child v-on:myEvent="getData"></my-child>
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: [],
+        methods: {
+            getData(msg) {
+                console.log("msg from child: " + msg);
+                this.msg = msg;
+            }
+        },
+        data: function () {
+            return {
+                msg: ''
+            }
+        }
+    });
+
+    Vue.component('my-child', {
+        template: `
+            <input type="button" v-on:click="sendData" value="点击发送信息">
+        `,
+        // 接收全部的外部入参
+        props: [],
+        methods: {
+            sendData() {
+                /*cxy 触发父组件的方法执行*/
+                this.$emit('myEvent', 'Hello Vue');
+            }
+        },
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

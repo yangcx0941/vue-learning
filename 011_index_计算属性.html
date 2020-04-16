@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="m1">
+    <!--处理逻辑被放在View层了，不建议使用-->
+    <br/>
+    {{m1.split('').reverse().join('')}}
+    <!--使用计算属性-->
+    <br/>
+    {{msg}}
+</div>
+
+<script type="text/javascript">
+    let m = {
+        m1: 'Hello Vue'
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            // msg() {
+            //     return this.m1.split('').reverse().join('');
+            // }
+        },
+        // 计算属性
+        computed:{
+            msg() {
+                return this.m1.split('').reverse().join('');
+            }
+        }
+    });
+</script>
+</body>
+</html>

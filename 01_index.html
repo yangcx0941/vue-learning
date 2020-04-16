@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<!--View-->
+<div id="app">
+    <!--事件绑定：不传参可以不写括号；接收入参但是不传的话默认是一个MouseEvent（需要具体看看）；两种书写方式-->
+    <input type="button" value="按钮1" v-on:click="show(28)"/>
+    <input type="button" value="按钮2" @click="show">
+    <h3>{{word}}</h3>
+</div>
+
+<!--加载顺序-->
+<script type="text/javascript">
+    /*Module*/
+    let m = {
+        word: "Hello World"
+    };
+
+    /*ViewModel*/
+    let vm = new Vue({
+        // 挂载点
+        el: '#app',
+        // 数据
+        data: m,
+        // 方法
+        methods: {
+            show(x) {
+                console.log("Hello,I am here! " + x);
+                this.word = 'yangcx';
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <myy-parent></myy-parent>
+</div>
+
+<script type="text/javascript">
+
+    /*cxy 子组件修改父组件向其传递的值并反映到父组件：向子组件传参时必须使用对象传递*/
+    Vue.component('myy-parent', {
+        template: `
+            <div>
+                <h4>父组件的Value：{{parentValue}}</h4>
+                <input type="text" v-model="parentValue.d">
+                <hr/>
+                <myy-child v-bind:my-value="parentValue"></myy-child>
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: [],
+        methods: {},
+        data: function () {
+            return {
+                parentValue: {
+                    d: 'yangcx'
+                }
+            }
+        },
+    });
+
+    /*cxy 子组件不能直接修改来自父组件的值（基本数据类型），如果是引用数据类型就可以修改*/
+    Vue.component('myy-child', {
+        template: `
+            <div>
+                <h4>子组件的Value：{{myValue}}</h4>
+                <input type="text" v-model="myValue.d">
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: ['myValue'],
+        methods: {},
+        mounted: function () {
+            console.log("myy-child mounted: " + this.myValue.d)
+        },
+        updated: function () {
+            console.log("myy-child updated: " + this.myValue.d)
+        }
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

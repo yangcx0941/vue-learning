@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--v-model数据双向绑定-->
+    <input type="text" v-model="theValue"/>
+    <p>{{theValue}}</p>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        theValue: 'hello world'
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

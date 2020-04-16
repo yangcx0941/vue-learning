@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script type="application/javascript" src="js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="按钮">
+</div>
+
+<!--
+    1、type="text/x-tmpl"（只要不是javascript就行） 浏览器会认为他不是javascript脚本，从而不去解析执行里面的专内容
+    2、JS HTML 分离
+-->
+<script id="tmp" type="text/x-tmpl">
+    <div>
+        <p>%word%</p>
+    </div>
+</script>
+
+<script type="application/javascript">
+
+    /*直接操作DOM*/
+    // function changeDirectly() {
+    //     let app = document.getElementById("app");
+    //
+    //     let div, p;
+    //     div = document.createElement("div");
+    //     p = document.createElement("p");
+    //     p.innerHTML = 'abc';
+    //     div.append(p);
+    //     app.append(div);
+    // }
+    // addEventListener('click', changeDirectly);
+
+    /*模板方法*/
+    // function changeWithTemplate() {
+    //     let app = document.getElementById("app");
+    //     let html = '';
+    //     let htmlTemplate = '<div><p>%word%</p></div>';
+    //
+    //     html = htmlTemplate.replace(/%word%/g,'abc');
+    //     console.log(html)
+    //     app.innerHTML = html;
+    // }
+    // addEventListener('click', changeWithTemplate);
+
+    /*JS与HTML分离*/
+    //把模板放到HTML中；渲染；Vue将模板hide起来
+    function changeWithTemplate() {
+        let app = document.getElementById("app");
+        let html = '';
+        let htmlTemplate = document.getElementById('tmp').innerHTML;
+
+        html = htmlTemplate.replace(/%word%/g,'abc');
+        console.log(html)
+        app.innerHTML = html;
+    }
+    addEventListener('click', changeWithTemplate);
+
+</script>
+</body>
+</html>

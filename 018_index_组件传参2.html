@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <parent></parent>
+</div>
+
+<script type="text/javascript">
+
+    Vue.component('child', {
+        template: `
+            <div>
+                <hr/>
+                <h4>子组件接到的value：{{myValue}}</h4>
+                <br/>
+                <input type="text" v-bind:value="myValue"/>
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: ['myValue'],
+        methods: {},
+        mounted: function () {
+        }
+    });
+
+    /*
+    * 1、普通的静态值可以直接写，eg. p1="p123"
+    * 2、通过 data 指定的动态值需要绑定传参，eg. v-bind:prtP1="prtP1"
+    * 3、子组件中通过绑定接收
+    * */
+    Vue.component('parent', {
+        template: `
+            <div>
+                父组件的value：<input type="text" v-model="parentValue"/>
+                <br/>
+                <child v-bind:my-value="parentValue"></child>
+            </div>
+        `,
+        data: function () {
+            return {
+                parentValue: 'yangcx'
+            }
+        },
+        updated: function () {
+            console.log(this.parentValue);
+        }
+    });
+
+    let m = {
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

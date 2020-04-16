@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <cy-parent></cy-parent>
+</div>
+
+<script type="text/javascript">
+
+    /*
+    * 通过子组件控制父组件属性
+    * cxy 通过执行父组件方法实现
+    * */
+    Vue.component('cy-parent', {
+        template: `
+            <div>
+                <ul v-if="isShow">
+                    <li v-for="item in array">{{item}}</li>
+                </ul>
+                <cy-child v-on:handleSwitch="pHandleSwitch" v-on:handleAdd="pHandleAdd"></cy-child>
+            </div>
+        `,
+        data: function () {
+            return {
+                array: [1, 2, 3, 4],
+                isShow: true
+            }
+        },
+        methods: {
+            pHandleSwitch() {
+                this.isShow = !this.isShow;
+            },
+            pHandleAdd(data) {
+                this.array.push(data);
+            }
+        }
+    });
+
+    Vue.component('cy-child', {
+        template: `
+            <div>
+                <input type="button" value="切换显示" v-on:click="handleSwitch">
+                <br/><br/>
+                <input type="button" value="添加" v-on:click="handleAdd">
+            </div>
+        `,
+        methods: {
+            handleSwitch() {
+                /*调用父组件的方法*/
+                this.$emit('handleSwitch');
+            },
+            handleAdd() {
+                /*调用父组件的方法，向父组件传值*/
+                let number = parseInt(String(Math.random() * 6)) + 4;
+                this.$emit('handleAdd', number);
+            }
+        }
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

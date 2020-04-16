@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--浏览器渲染完整DOM，VUE启动后爬DOM TREE定位对应属性进行替换或执行逻辑-->
+    <input type="button" value="切换显示" v-on:click="pShow">
+    <!--v-if true-显示 false-删除转化为空白注释；TODO 里面是支持表达式的【任何支持作为if条件的都支持v-if判断】-->
+    <p v-if="showP">能够被控制显示还是不显示</p>
+    <p v-if="num">数字0/1效果一样，现在的num是{{num}}</p>
+    <p v-if="str1">字符串判断</p>
+    <!--v-show 控制display=block|none，不删除DOM-->
+    <p v-show="true">能够被控制显示还是不显示2222</p>
+
+    <!--if-else成对匹配，就近匹配-->
+    <p v-if="showP">showP:true 显示</p>
+    <p v-else>showP:false 不显示</p>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        showP: true,
+        num1: 1,
+        str1: ''
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            pShow() {
+                this.showP = !this.showP;
+                if (this.num === 1) {
+                    this.num = 0;
+                } else {
+                    this.num = 1;
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

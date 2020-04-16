@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--复合组件-->
+    <parent/>
+</div>
+
+<script type="text/javascript">
+
+    /*
+    * 创建组件
+    * 1、组件命名不能是小驼峰，用 - 串联的小写字母单词
+    * 2、template 只能包含一个根元素
+    * */
+
+    Vue.component('child-first', {
+        template: `<h4>child-first:{{data}}</h4>`,
+        // 组件中使用的数据，必须是函数
+        data: function () {
+            return {
+                data: 'Hello Vue'
+            }
+        }
+    });
+
+    Vue.component('child-second', {
+        template: `
+            <div>
+                <h4>child-second:</h4>
+                <ul>
+                    <li v-for="item in array">{{item}}</li>
+                </ul>
+            </div>
+        `,
+        data: function () {
+            return {
+                array: ['abc', 'def', 'gh']
+            };
+        }
+    });
+
+    Vue.component('parent', {
+        template: `
+            <div>
+                <child-first/>
+                <child-second/>
+            </div>
+        `
+    });
+
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

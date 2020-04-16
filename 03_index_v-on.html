@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--浏览器渲染完整DOM，VUE启动后爬DOM TREE定位对应属性进行替换或执行逻辑-->
+    <input type="button" value="切换显示" v-on:click="pShow">
+    <!--true-显示 false-删除转化为空白注释-->
+    <p v-if="showP">能够被控制显示还是不显示</p>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        showP: false
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            pShow() {
+                this.showP = !this.showP;
+            }
+        }
+    });
+</script>
+</body>
+</html>

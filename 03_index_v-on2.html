@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--冒泡-->
+    <!--$event 获取JavaScript的原生事件-->
+    <div v-on:click="func($event)">
+        <input type="button" value="按钮1">
+        <input type="button" value="按钮2">
+        <input type="button" value="按钮3">
+    </div>
+
+    <hr/>
+    <!--停止冒泡-->
+    <div v-on:click="func2">
+        <div v-on:click.stop="func($event)">
+            <input type="button" value="按钮4">
+            <input type="button" value="按钮5">
+            <input type="button" value="按钮6">
+        </div>
+    </div>
+
+    <hr>
+    <!--preventDefault 阻止默认响应-->
+    <a href="https://www.baidu.com" v-on:click.prevent="func3">百度</a>
+
+    <hr/>
+    <!--只有Enter才响应-->
+    <input type="text" v-on:keyup.enter="func4">
+</div>
+
+<script type="text/javascript">
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            func(event) {
+                console.log(event, event.target);
+                console.log("冒泡中。。。");
+            },
+
+            func2(event) {
+                console.log("冒泡中。。。");
+            },
+
+            func3(event) {
+                alert("去百度吗？");
+            },
+
+            func4() {
+                console.log("keydown");
+            }
+        }
+    });
+</script>
+</body>
+</html>

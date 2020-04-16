@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="切换" v-on:click="toBeOrNotToBe">
+    <!--TODO v-show不会触发生命周期改变-->
+    <my-component v-if="isShow"></my-component>
+</div>
+
+<script type="text/javascript">
+
+    Vue.component('my-component', {
+        template: `
+            <div>
+                <input type="button" value="点击" v-on:click="handleClick">
+                <h4>{{count}}</h4>
+            </div>
+        `,
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        methods: {
+            handleClick() {
+                this.count++;
+            }
+        },
+        // 生命周期函数
+        beforeCreate: function () {
+            console.log("beforeCreate");
+        },
+        created: function () {
+            console.log("created");
+        },
+        beforeMount: function () {
+            console.log("beforeMount");
+        },
+        mounted: function () {
+            console.log("mounted");
+        },
+        beforeUpdate: function () {
+            console.log("beforeUpdate");
+        },
+        updated: function () {
+            console.log("updated");
+        },
+        beforeDestroy: function () {
+            console.log("beforeDestroy");
+        },
+        destroyed: function () {
+            console.log("destroyed");
+        }
+    });
+
+    let m = {
+        isShow: true
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {
+            toBeOrNotToBe() {
+                this.isShow = !this.isShow;
+            }
+        }
+    });
+</script>
+</body>
+</html>

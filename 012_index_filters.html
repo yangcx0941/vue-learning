@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <style>
+        /*可避免某些运行速度慢的机器在Vue还未渲染完成时页面显示占位符*/
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <h4>{{price}}</h4>
+    <!--cxy 为啥子认不到呢？？-->
+    <h4>{{price | myCurrency('￥')}}</h4>
+    <h4>{{word | changeToUpper(false)}}</h4>
+    <h4>{{word | changeToUpper(true)}}</h4>
+</div>
+
+<script type="text/javascript">
+    let m = {
+        price: 3780,
+        word: 'aBcDEg'
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {},
+        // 过滤器
+        filters: {
+            myCurrency(myInput, arg) {
+                console.log(myInput, arg);
+                let priceTmp = myInput / 100.0;
+                return arg + priceTmp;
+            },
+            changeToUpper(myInput, arg) {
+                if (arg) {
+                    return myInput.toUpperCase();
+                } else {
+                    return myInput.toLowerCase();
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

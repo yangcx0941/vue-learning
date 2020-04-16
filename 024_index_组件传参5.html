@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <myy-parent></myy-parent>
+</div>
+
+<script type="text/javascript">
+
+    /*使用通道实现父组件访问子组件，反之亦然*/
+    Vue.component('myy-parent', {
+        template: `
+            <div>
+                <myy-child ref="mySon"></myy-child>
+                <br>
+                <input type="button" value="获取子组件信息" v-on:click="getData">
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: [],
+        methods: {
+            getData() {
+                /*获取子组件的信息；mySon 是 ref 定义的值*/
+                console.log("获取子组件的信息：" + this.$refs.mySon.childStr)
+            }
+        },
+        data: function () {
+            return {
+                parentStr: 'I am father'
+            }
+        },
+        updated: function () {
+            console.log("myy-parent updated...")
+        }
+    });
+
+    Vue.component('myy-child', {
+        template: `
+            <div>
+
+            </div>
+        `,
+        // 接收全部的外部入参
+        props: [],
+        methods: {},
+        data: function () {
+            return {
+                childStr: 'I am child'
+            }
+        },
+        mounted: function () {
+            /*$parent 可以访问父组件*/
+            console.log("myy-child mounted... " + this.$parent.parentStr)
+        },
+        updated: function () {
+            console.log("myy-child updated...")
+        }
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>

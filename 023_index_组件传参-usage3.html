@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <cy-parent></cy-parent>
+</div>
+
+<script type="text/javascript">
+
+    /*
+    * 通过子组件控制父组件属性
+    * cxy 通过通道实现
+    * */
+    Vue.component('cy-parent', {
+        template: `
+            <div>
+                <ul v-if="data.isShow">
+                    <li v-for="item in data.array">{{item}}</li>
+                </ul>
+                <cy-child></cy-child>
+            </div>
+        `,
+        data: function () {
+            return {
+                data: {
+                    array: [1, 2, 3, 4],
+                    isShow: true
+                }
+            }
+        },
+        methods: {}
+    });
+
+    Vue.component('cy-child', {
+        template: `
+            <div>
+                <input type="button" value="切换显示" v-on:click="handleSwitch">
+                <br/><br/>
+                <input type="button" value="添加" v-on:click="handleAdd">
+            </div>
+        `,
+        props: [],
+        methods: {
+            handleSwitch() {
+                /*更改父组件的引用对象属性*/
+                this.$parent.data.isShow = !this.$parent.data.isShow;
+            },
+            handleAdd() {
+                /*更改父组件的引用对象属性*/
+                let number = parseInt(String(Math.random() * 6)) + 5;
+                this.$parent.data.array.push(number);
+            }
+        }
+    });
+
+    let m = {};
+
+    let vm = new Vue({
+        el: '#app',
+        data: m,
+        methods: {}
+    });
+</script>
+</body>
+</html>
